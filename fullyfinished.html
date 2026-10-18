@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join TMMK | Tamizhaga Murpokku Makkal Katchi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #005131;
+      --primary-hover: #176b45;
+      --bg: #f7f9f7;
+      --surface: #ffffff;
+      --border: #dde5de;
+      --text: #202820;
+      --muted: #68736b;
+      --muted-soft: #bfc9c0;
+      --green-100: #ebf7ec;
+      --green-200: #e5f1e7;
+      --green-300: #e0ebe1;
+      --green-accent: #99e9b9;
+      --nav-text: #3f4942;
+      --danger: #b3261e;
+      --serif: "Liberation Serif", "Times New Roman", Times, serif;
+      --tamil: "Noto Sans Tamil", "Latha", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { font-family: var(--serif); background: var(--bg); color: var(--text); }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font-family: inherit; }
+    button { cursor: pointer; border: none; background: none; }
+    svg { display: block; }
+    [hidden] { display: none !important; }
+
+    /* ---------- HEADER ---------- */
+    .site-header { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid var(--border); }
+    .header-inner {
+      max-width: 1152px; margin: 0 auto; height: 80px; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 16px; min-width: 0; }
+    .logo {
+      width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; background: #fff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05); overflow: hidden; position: relative;
+      display: grid; place-items: center;
+    }
+    .logo img { width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0; }
+    .logo .fallback { position: absolute; }
+    .brand-text { min-width: 0; }
+    .brand-title { display: flex; align-items: center; gap: 4px; white-space: nowrap; overflow: hidden; }
+    .tamil-name { font-family: var(--tamil); font-weight: 600; color: var(--primary); font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
+    .sep { color: var(--muted); }
+    .en-name { font-weight: 700; color: var(--primary); font-size: 18px; overflow: hidden; text-overflow: ellipsis; }
+    .brand-sub { font-size: 11px; letter-spacing: 0.275px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+    .header-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .nav { display: flex; align-items: center; gap: 16px; }
+    .nav a { font-size: 12px; font-weight: 700; color: var(--nav-text); padding: 4px 6px; border-radius: 4px; }
+    .nav a.active { background: var(--primary-hover); color: #fff; }
+    .nav a:hover:not(.active) { color: var(--primary); }
+    .lang-toggle { display: flex; background: var(--green-200); border: 1px solid var(--border); border-radius: 12px; padding: 5px; }
+    .lang-toggle button { padding: 2px 8px; border-radius: 12px; font-size: 11px; color: var(--nav-text); }
+    .lang-toggle button.on { background: var(--primary); color: #fff; }
+    .avatar-btn { width: 32px; height: 32px; border-radius: 12px; background: var(--primary); color: #fff; display: grid; place-items: center; }
+
+    /* ---------- MAIN LAYOUT ---------- */
+    .main { padding: 112px 24px 32px; }
+    .wrapper { max-width: 940px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--muted); font-weight: 700; }
+    .breadcrumb .current { color: var(--primary); font-weight: 700; }
+    .breadcrumb .slash { color: var(--muted-soft); }
+    .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .page-head h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.7px; line-height: 36px; }
+    .tamil-sub { font-size: 18px; color: var(--muted); }
+    .page-head p { font-size: 16px; color: var(--muted); line-height: 24px; margin-top: 2px; }
+    .phase-badge {
+      display: inline-flex; align-items: center; gap: 6px; background: var(--green-200);
+      border-radius: 12px; padding: 4px 10px; font-size: 11px; text-transform: uppercase;
+      font-weight: 700; color: var(--primary); white-space: nowrap;
+    }
+    .phase-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+
+    /* Stepper */
+    .stepper-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 25px 40px; }
+    .stepper { position: relative; display: flex; justify-content: space-between; max-width: 768px; margin: 0 auto; }
+    .stepper::before { content: ""; position: absolute; left: 24px; right: 24px; top: 19px; height: 2px; background: var(--green-300); }
+    .step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 64px; }
+    .step-circle {
+      width: 40px; height: 40px; border-radius: 12px; background: var(--green-300); color: var(--muted);
+      display: grid; place-items: center; font-weight: 700; font-size: 12px;
+      box-shadow: 0 0 0 4px #fff;
+    }
+    .step.active .step-circle, .step.done .step-circle { background: var(--primary); color: #fff; }
+    .step-label { margin-top: 8px; font-size: 11px; color: var(--muted); text-align: center; white-space: nowrap; }
+    .step.active .step-label { color: var(--primary); font-weight: 700; }
+    .step-label-ta { font-family: var(--tamil); font-size: 10px; color: var(--muted); margin-top: 4px; white-space: nowrap; }
+
+    /* Step panels */
+    .panel { background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 28px; }
+    .panel-head { margin-bottom: 20px; }
+    .panel-head h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.55px; }
+    .panel-head .ta { font-family: var(--tamil); font-size: 12px; color: var(--primary); margin-top: 2px; }
+    .panel-head p { font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 20px; }
+
+    .cards { display: flex; gap: 24px; align-items: stretch; }
+    .card {
+      flex: 1 1 0; min-width: 0; position: relative; background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); padding: 25px;
+      display: flex; flex-direction: column; justify-content: space-between; gap: 24px; overflow: hidden;
+    }
+    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .icon-box { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; flex-shrink: 0; }
+    .light-green { background: var(--green-100); }
+    .soft-green { background: var(--green-200); }
+    .tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; font-size: 11px; border-radius: 2px; white-space: nowrap; }
+    .tag.primary { background: var(--green-100); color: var(--primary); font-weight: 700; }
+    .tag.muted { background: var(--green-200); color: var(--muted); }
+    .card h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.55px; }
+    .card .ta { font-family: var(--tamil); font-size: 12px; color: var(--primary); margin-top: 2px; }
+    .card .desc { font-size: 14px; color: var(--muted); line-height: 20px; margin-top: 4px; }
+    .fee-badge {
+      background: var(--green-100); border: 1px solid rgba(0,81,49,0.1); border-radius: 4px;
+      height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px;
+    }
+    .price { font-size: 28px; font-weight: 700; color: var(--primary); }
+    .period { font-size: 11px; color: var(--muted); margin-left: 4px; }
+    .fee-valid { font-family: var(--tamil); font-weight: 600; font-size: 9px; color: var(--primary); text-align: right; }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .feature-list li { display: flex; gap: 6px; font-size: 14px; line-height: 20px; }
+    .feature-list svg { flex-shrink: 0; margin-top: 2px; }
+
+    .btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+      height: 48px; padding: 0 24px; border-radius: 4px; font-size: 14px; font-weight: 700;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+    .btn-outline:hover { background: var(--green-100); }
+    .btn-ghost { background: #fff; color: var(--primary); border: 1px solid var(--border); padding: 0 20px; width: auto; }
+    .btn-ghost:hover { border-color: var(--primary); }
+    .btn .ta-inline { font-family: var(--tamil); font-weight: 400; font-size: 12px; }
+    .btn-primary .ta-inline { color: var(--green-accent); }
+    .btn-outline .ta-inline { color: rgba(0,81,49,0.8); }
+
+    .amount-label { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.5px; }
+    .amount-options { display: flex; gap: 8px; margin-top: 4px; }
+    .amount-options button {
+      flex: 1; height: 44px; background: #fff; border: 1px solid var(--border); border-radius: 2px;
+      font-size: 12px; font-weight: 700; color: var(--text);
+    }
+    .amount-options button.selected { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .impact { display: flex; gap: 6px; background: rgba(229,241,231,0.6); padding: 8px; font-size: 13px; line-height: 20px; color: var(--muted); border-radius: 2px; }
+
+    /* Form */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 13px; font-weight: 700; color: var(--text); }
+    .field label .req { color: var(--danger); }
+    .field input, .field select, .field textarea {
+      width: 100%; height: 44px; padding: 0 12px; border: 1px solid var(--border);
+      border-radius: 4px; background: #fff; font-size: 14px; color: var(--text);
+    }
+    .field textarea { height: 84px; padding: 10px 12px; resize: vertical; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,81,49,0.12);
+    }
+    .field input:invalid:not(:placeholder-shown) { border-color: var(--danger); }
+    .hint { font-size: 12px; color: var(--muted); }
+    .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .radio-group label {
+      display: flex; align-items: center; gap: 6px; font-weight: 400; font-size: 14px;
+      border: 1px solid var(--border); border-radius: 4px; padding: 8px 14px; cursor: pointer;
+    }
+    .radio-group input { accent-color: var(--primary); }
+    .radio-group label:has(input:checked) { border-color: var(--primary); background: var(--green-100); }
+    .form-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .form-actions .btn-primary { width: auto; padding: 0 28px; }
+    .error-msg { color: var(--danger); font-size: 13px; margin-top: 12px; min-height: 18px; }
+
+    /* Review */
+    .review-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; }
+    .review-item .k { font-size: 11px; text-transform: uppercase; color: var(--muted); letter-spacing: 0.4px; }
+    .review-item .v { font-size: 15px; color: var(--text); margin-top: 2px; word-break: break-word; }
+    .success { text-align: center; padding: 30px 10px; }
+    .success .check {
+      width: 64px; height: 64px; border-radius: 50%; background: var(--green-100);
+      display: grid; place-items: center; margin: 0 auto 14px;
+    }
+    .success h2 { font-size: 22px; color: var(--primary); }
+    .success p { color: var(--muted); margin-top: 6px; }
+
+    /* Metrics */
+    .metrics { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 25px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .metric-main { display: flex; align-items: center; gap: 16px; }
+    .figure { font-size: 18px; font-weight: 700; }
+    .caption { font-size: 14px; color: var(--muted); }
+    .metric-side { display: flex; gap: 24px; padding-left: 25px; border-left: 1px solid var(--border); }
+    .mk { font-size: 11px; text-transform: uppercase; color: var(--muted); }
+    .mv { font-size: 12px; font-weight: 700; color: var(--primary); margin-top: 5px; }
+
+    /* CTA & footer */
+    .cta-band { background: var(--primary); padding: 40px 24px; margin-top: 40px; }
+    .cta-inner { max-width: 1152px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .cta-inner h2 { font-size: 28px; color: #fff; letter-spacing: -0.7px; }
+    .cta-inner p { color: var(--green-accent); margin-top: 4px; }
+    .cta-btn { background: #fff; color: var(--primary); font-weight: 700; height: 48px; padding: 0 40px; display: inline-flex; align-items: center; border-radius: 4px; }
+    .site-footer { background: #fff; border-top: 1px solid var(--border); }
+    .footer-main { max-width: 1152px; margin: 0 auto; padding: 40px 24px; display: flex; gap: 40px; }
+    .footer-col { flex: 1; min-width: 0; }
+    .footer-col h4 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 16px; }
+    .footer-brand { color: var(--primary); font-weight: 700; font-size: 18px; }
+    .footer-about { font-size: 14px; color: var(--muted); line-height: 22px; margin-top: 12px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a { font-size: 14px; color: var(--muted); }
+    .footer-links a.home { color: var(--primary); font-weight: 700; font-size: 16px; }
+    .contact-list { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: var(--muted); }
+    .contact-list strong { display: block; color: var(--text); font-size: 12px; }
+    .footer-bottom { border-top: 1px solid var(--border); padding: 16px 24px; font-size: 11px; color: var(--muted); }
+    .footer-bottom-inner { max-width: 1152px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+    @media (max-width: 900px) {
+      .nav, .helpline-link { display: none; }
+      .cards { flex-direction: column; }
+      .form-grid, .review-list { grid-template-columns: 1fr; }
+      .footer-main { flex-direction: column; }
+      .metric-side { border-left: none; padding-left: 0; }
+      .stepper-card { overflow-x: auto; }
+      .stepper { min-width: 520px; }
+    }
+    @media (max-width: 520px) {
+      .main { padding: 40px 16px 24px; }
+      .header-inner { padding: 0 16px; }
+      .brand-sub, .tamil-name, .lang-toggle { display: none; }
+      .panel, .card { padding: 20px; }
+    }
+    :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- ======================= HEADER ======================= -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <!--
+        LOGO: save your new logo in the same folder as this HTML file and name it "logo.png"
+        (PNG, JPG, or SVG all work). Or change the src below to your logo's path or URL.
+      -->
+      <div class="logo">
+        <svg class="fallback" width="28" height="28" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="18" fill="#fff" stroke="#005131" stroke-width="2"/>
+          <path d="M12 26 L20 12 L28 26 Z" fill="none" stroke="#c0392b" stroke-width="2"/>
+          <circle cx="20" cy="22" r="3" fill="#c0392b"/>
+        </svg>
+        <img src="logo.png" alt="TMMK logo" onerror="this.remove()" />
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">
+          <span class="tamil-name">தமிழக முற்போக்கு மக்கள் கட்சி</span>
+          <span class="sep">/</span>
+          <span class="en-name">Tamizhaga Murpokku Makkal Katchi</span>
+        </div>
+        <div class="brand-sub">Official Membership &amp; Donation Portal</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <nav class="nav">
+        <a href="#" class="active">Home</a>
+        <a href="#">Membership</a>
+        <a href="#">Donate</a>
+        <a href="#">Status &amp; Card</a>
+      </nav>
+      <div class="lang-toggle">
+        <button class="on">தமிழ்</button>
+        <button>English</button>
+      </div>
+      <button class="avatar-btn" aria-label="Account">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+  <div class="wrapper">
+
+    <div class="breadcrumb">
+      <a href="#">Home</a><span class="slash">/</span>
+      <a href="#">Membership Registration</a><span class="slash">/</span>
+      <span class="current" id="crumb">Choose</span>
+    </div>
+
+    <div class="page-head">
+      <div>
+        <div class="title-row">
+          <h1>Join TMMK</h1>
+          <span class="tamil-sub">| இணையுங்கள்</span>
+        </div>
+        <p>Register as a member or make a contribution through our official civic portal.</p>
+      </div>
+      <span class="phase-badge"><span class="dot"></span>2026-2029 Official Enrollment Phase</span>
+    </div>
+
+    <!-- STEPPER -->
+    <section class="stepper-card" aria-label="Application progress">
+      <div class="stepper" id="stepper">
+        <div class="step active" data-step="1"><div class="step-circle">1</div><div class="step-label">Choose</div><div class="step-label-ta">தேர்வு</div></div>
+        <div class="step" data-step="2"><div class="step-circle">2</div><div class="step-label">Details</div><div class="step-label-ta">விவரம்</div></div>
+        <div class="step" data-step="3"><div class="step-circle">3</div><div class="step-label">Review</div><div class="step-label-ta">சரிபார்ப்பு</div></div>
+        <div class="step" data-step="4"><div class="step-circle">4</div><div class="step-label">Payment</div><div class="step-label-ta">கட்டணம்</div></div>
+        <div class="step" data-step="5"><div class="step-circle">5</div><div class="step-label">Confirm</div><div class="step-label-ta">உறுதிப்படுத்தல்</div></div>
+      </div>
+    </section>
+
+    <!-- ======== STEP 1: CHOOSE ======== -->
+    <section id="step-1" class="cards">
+      <article class="card">
+        <div>
+          <div class="card-head">
+            <div class="icon-box light-green">
+              <svg width="24" height="20" viewBox="0 0 24 20" fill="none" stroke="#005131" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="6" r="4"/><path d="M1 19a8 8 0 0 1 16 0"/><path d="M16 11l2 2 4-4"/></svg>
+            </div>
+            <span class="tag primary">Official Membership</span>
+          </div>
+          <div style="margin-top:16px">
+            <h2>Become a Member</h2>
+            <div class="ta">உறுப்பினர் சேர்க்கை படிவம்</div>
+            <p class="desc">Register your details and join the organisation as an official member to participate in civic governance.</p>
+          </div>
+          <div class="fee-badge" style="margin-top:16px">
+            <div><span class="price">₹100</span><span class="period">/ 3 Years</span></div>
+            <span class="fee-valid">மூன்று ஆண்டுகள் செல்லுபடியாகும்</span>
+          </div>
+          <ul class="feature-list" style="margin-top:16px">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#005131" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Official Digital Membership ID card with photo &amp; QR verification.</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#005131" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Participation in grassroots constituency assemblies &amp; voting councils.</li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#005131" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Direct notifications and invitations to welfare programmes and community drives.</li>
+          </ul>
+        </div>
+        <button class="btn btn-primary" data-goto="2" data-type="member">Register Now <span class="ta-inline">(பதிவு செய்க)</span></button>
+      </article>
+
+      <article class="card">
+        <div>
+          <div class="card-head">
+            <div class="icon-box soft-green">
+              <svg width="25" height="24" viewBox="0 0 24 24" fill="none" stroke="#005131" stroke-width="1.8" stroke-linecap="round"><path d="M2 16h4v6H2z"/><path d="M6 16l4-1h4a2 2 0 0 1 0 4h-3"/><path d="M14 9a3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 3 6 6 6 6s6-3 6-6a3 3 0 0 0-3-3 3 3 0 0 0-3 3z"/></svg>
+            </div>
+            <span class="tag muted">Tax Deductible Welfare Fund</span>
+          </div>
+          <div style="margin-top:16px">
+            <h2>Make a Donation</h2>
+            <div class="ta" style="color:var(--primary)">பொது நல நன்கொடை</div>
+            <p class="desc">Contribute towards supporting the organisation's community, medical relief, and social empowerment programs.</p>
+          </div>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:6px">
+            <span class="amount-label">Select Contribution</span>
+            <div class="amount-options" id="amounts">
+              <button class="selected" type="button">₹250</button>
+              <button type="button">₹500</button>
+              <button type="button">₹1,000</button>
+              <button type="button">Custom</button>
+            </div>
+          </div>
+          <div class="impact" style="margin-top:16px">
+            <span>♡</span>
+            <span>Every contribution directly supports ambulance networks, educational aid, disaster aid, and citizen rights initiatives across Tamil Nadu.</span>
+          </div>
+        </div>
+        <button class="btn btn-outline" data-goto="2" data-type="donation">Donate Now <span class="ta-inline">(நன்கொடை அளிக்கவும்)</span></button>
+      </article>
+    </section>
+
+    <!-- ======== STEP 2: CUSTOMER DETAILS FORM ======== -->
+    <section id="step-2" class="panel" hidden>
+      <div class="panel-head">
+        <h2>Your Details</h2>
+        <div class="ta">உங்கள் விவரங்கள்</div>
+        <p>Enter the details exactly as they appear on your official ID. Fields marked <span style="color:var(--danger)">*</span> are required.</p>
+      </div>
+
+      <form id="details-form" novalidate>
+        <div class="form-grid">
+          <div class="field full">
+            <label for="fullName">Full Name <span class="req">*</span></label>
+            <input id="fullName" name="fullName" type="text" placeholder="As per ID proof" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="guardian">Father's / Husband's Name <span class="req">*</span></label>
+            <input id="guardian" name="guardian" type="text" required />
+          </div>
+
+          <div class="field">
+            <label for="dob">Date of Birth <span class="req">*</span></label>
+            <input id="dob" name="dob" type="date" required />
+          </div>
+
+          <div class="field full">
+            <label>Gender <span class="req">*</span></label>
+            <div class="radio-group">
+              <label><input type="radio" name="gender" value="Male" required /> Male</label>
+              <label><input type="radio" name="gender" value="Female" /> Female</label>
+              <label><input type="radio" name="gender" value="Other" /> Other</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="mobile">Mobile Number <span class="req">*</span></label>
+            <input id="mobile" name="mobile" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit mobile" pattern="[6-9][0-9]{9}" required autocomplete="tel" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="name@example.com" autocomplete="email" />
+          </div>
+
+          <div class="field full">
+            <label for="address">Residential Address <span class="req">*</span></label>
+            <textarea id="address" name="address" required placeholder="House no., street, area"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="district">District <span class="req">*</span></label>
+            <select id="district" name="district" required>
+              <option value="">Select district</option>
+              <option>Chennai</option><option>Coimbatore</option><option>Madurai</option>
+              <option>Tiruchirappalli</option><option>Salem</option><option>Tirunelveli</option>
+              <option>Erode</option><option>Vellore</option><option>Thanjavur</option>
+              <option>Kanchipuram</option><option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="constituency">Assembly Constituency <span class="req">*</span></label>
+            <input id="constituency" name="constituency" type="text" required />
+          </div>
+
+          <div class="field">
+            <label for="pincode">PIN Code <span class="req">*</span></label>
+            <input id="pincode" name="pincode" type="text" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required />
+          </div>
+
+          <div class="field">
+            <label for="occupation">Occupation</label>
+            <select id="occupation" name="occupation">
+              <option value="">Select</option>
+              <option>Student</option><option>Employed</option><option>Self-employed</option>
+              <option>Business</option><option>Homemaker</option><option>Retired</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <p class="error-msg" id="form-error"></p>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-goto="1">← Back</button>
+          <button type="submit" class="btn btn-primary">Continue to Review →</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ======== STEP 3: REVIEW ======== -->
+    <section id="step-3" class="panel" hidden>
+      <div class="panel-head">
+        <h2>Review Your Details</h2>
+        <div class="ta">விவரங்களை சரிபார்க்கவும்</div>
+        <p>Please check everything carefully before submitting.</p>
+      </div>
+      <div class="review-list" id="review-list"></div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" data-goto="2">← Edit</button>
+        <button type="button" class="btn btn-primary" id="submit-btn">Submit Application</button>
+      </div>
+    </section>
+
+    <!-- ======== SUCCESS ======== -->
+    <section id="step-success" class="panel" hidden>
+      <div class="success">
+        <div class="check">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#005131" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+        </div>
+        <h2>Application Submitted</h2>
+        <p>Thank you. Your details have been received. Please proceed to payment to complete your registration.</p>
+        <div class="form-actions" style="justify-content:center">
+          <button type="button" class="btn btn-primary" style="width:auto;padding:0 28px" data-goto="1">Back to Start</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- METRICS -->
+    <section class="metrics">
+      <div class="metric-main">
+        <div class="icon-box light-green">
+          <svg width="26" height="14" viewBox="0 0 24 14" fill="none" stroke="#005131" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="4" r="3"/><path d="M2 13a6 6 0 0 1 12 0"/><circle cx="17" cy="4" r="2.5"/><path d="M16 9a5 5 0 0 1 7 4"/></svg>
+        </div>
+        <div>
+          <div class="figure">4,82,310+</div>
+          <div class="caption">Registered active members across 234 Assembly Constituencies</div>
+        </div>
+      </div>
+      <div class="metric-side">
+        <div><div class="mk">38 Districts</div><div class="mv">100% Verified</div></div>
+        <div><div class="mk">Govt. Audited</div><div class="mv">Section 8 Compliant</div></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div>
+      <h2>Be a Part of the Change</h2>
+      <p>Join us today and take the next step towards active participation.</p>
+    </div>
+    <a href="#" class="cta-btn">Become a Member</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-main">
+    <div class="footer-col">
+      <div class="footer-brand">● Tamizhaga Murpokku Makkal Katchi</div>
+      <p class="footer-about">Connecting people through membership, participation and a shared commitment to Tamil Nadu's progress.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="#" class="home">Home</a></li>
+        <li><a href="#">Become a Member</a></li>
+        <li><a href="#">Make a Donation</a></li>
+        <li><a href="#">Membership Terms</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact &amp; Support</h4>
+      <ul class="contact-list">
+        <li><strong>Need Assistance?</strong>Toll-Free Helpline: 1800-425-TMMK (8665)</li>
+        <li>support@tmmk-party.org</li>
+        <li>State Headquarters, Anna Salai, Chennai, Tamil Nadu - 600002</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <span>© 2026 Tamizhaga Murpokku Makkal Katchi. All rights reserved.</span>
+      <span>Privacy • Terms • Security Verified 256-bit SSL</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+  const steps = { 1: "Choose", 2: "Details", 3: "Review", 4: "Payment", 5: "Confirm" };
+  let registrationType = "member";
+
+  // Show a step panel and update the progress bar
+  function showStep(n) {
+    const panels = { 1: "#step-1", 2: "#step-2", 3: "#step-3", success: "#step-success" };
+    Object.values(panels).forEach(sel => $(sel).hidden = true);
+    $(panels[n]).hidden = false;
+
+    const stepNum = n === "success" ? 5 : n;
+    $$(".step").forEach(s => {
+      const k = Number(s.dataset.step);
+      s.classList.toggle("active", k === stepNum);
+      s.classList.toggle("done", k < stepNum);
+    });
+    $("#crumb").textContent = steps[stepNum];
+    window.scrollTo({ top: $("#stepper").closest("section").offsetTop - 90, behavior: "smooth" });
+  }
+
+  // Buttons that move between steps
+  $$("[data-goto]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.type) registrationType = btn.dataset.type;
+      showStep(Number(btn.dataset.goto));
+    });
+  });
+
+  // Donation amount selector
+  $$("#amounts button").forEach(b => b.addEventListener("click", () => {
+    $$("#amounts button").forEach(x => x.classList.remove("selected"));
+    b.classList.add("selected");
+  }));
+
+  // Validate & go to review
+  const form = $("#details-form");
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const errorBox = $("#form-error");
+    errorBox.textContent = "";
+
+    if (!form.checkValidity()) {
+      const firstBad = [...form.elements].find(el => !el.checkValidity());
+      errorBox.textContent = "Please fill in all required fields correctly.";
+      if (firstBad) { firstBad.focus(); }
+      return;
+    }
+    renderReview();
+    showStep(3);
+  });
+
+  // Build the review summary from the form
+  function renderReview() {
+    const data = new FormData(form);
+    const labels = {
+      fullName: "Full Name", guardian: "Father's / Husband's Name", dob: "Date of Birth",
+      gender: "Gender", mobile: "Mobile", email: "Email", address: "Address",
+      district: "District", constituency: "Constituency", pincode: "PIN Code", occupation: "Occupation"
+    };
+    const list = $("#review-list");
+    list.innerHTML = "";
+    const add = (label, value) => {
+      const div = document.createElement("div");
+      div.className = "review-item";
+      div.innerHTML = `<div class="k"></div><div class="v"></div>`;
+      div.querySelector(".k").textContent = label;
+      div.querySelector(".v").textContent = value || "—";
+      list.appendChild(div);
+    };
+    add("Registration Type", registrationType === "member" ? "Membership (₹100 / 3 years)" : "Donation");
+    Object.entries(labels).forEach(([key, label]) => add(label, data.get(key)));
+  }
+
+  // Final submit (replace with your server call / payment redirect)
+  $("#submit-btn").addEventListener("click", () => {
+    const payload = Object.fromEntries(new FormData(form));
+    payload.type = registrationType;
+    console.log("Submitting:", payload);
+    // Example: fetch("/api/membership", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(payload) });
+    showStep("success");
+  });
+</script>
+</body>
+</html>
